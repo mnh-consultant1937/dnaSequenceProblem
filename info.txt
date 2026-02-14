@@ -1,0 +1,196 @@
+Step 1: range(len(s) - 9)
+
+len(s) = total number of letters in the string.
+
+We want all 10-letter sequences
+
+s = "AAAAACCCCCAAAAACCCCCCAAAAAGGGTTT"
+len(s) = 30
+
+Last 10-letter sequence starts at index 20: 
+"CAAAAAGGGTTT"[20:30] → 10 letters.
+
+So we loop from i = 0 to i = len(s)-10 = 20.
+
+✅ That’s why we do range(len(s) - 9) 
+(same as len(s)-10+1).
+
+
+
+Step 2: s[i:i+10]
+
+This takes a slice of the string from index i up to i+10 (not including i+10).
+
+Length of this slice = 10 letters.
+
+Example for first few iterations:
+
+i	s[i:i+10]
+0	"AAAAACCCCC"
+1	"AAAACCCCCA"
+2	"AAACCCCCAA"
+3	"AACCCCCAAA"
+4	"ACCCCCAAAA"
+...	...
+
+You see how the window slides by 1 letter each 
+time.
+
+
+
+Step 3: print(substring)
+
+Just prints the 10-letter substring to see what’s being extracted.
+
+This helps visualize the sliding window.
+
+
+s = "AAAAACCCCCAAAAACCCCCCAAAAAGGGTTT"
+
+for i in range(len(s) - 9):
+    substring = s[i:i+10]
+    print(substring)
+
+Output:
+AAAAACCCCC
+AAAACCCCCA
+AAACCCCCAA
+AACCCCCAAA
+ACCCCCAAAA
+CCCCCAAAAA
+CCCCAAAAAC
+CCCAAAAACC
+...
+
+This confirms that we are correctly taking all 
+10-letter sequences.
+
+
+Next step is to check which of these substrings 
+repeat using sets
+
+We already know how to extract all 10-letter 
+substrings using a sliding window. Now we want to 
+remember which ones repeat.
+
+Idea
+
+Use a set called seen to store all substrings we’ve 
+already seen.
+
+Use another set called repeated to store substrings 
+that appear more than once.
+
+Initialize sets
+seen = set()
+repeated = set()
+
+seen → keeps track of all substrings we’ve seen 
+so far
+
+repeated → keeps track of substrings that repeat
+
+
+Slide the window and check
+s = "AAAAACCCCCAAAAACCCCCCAAAAAGGGTTT"
+
+for i in range(len(s) - 9):
+    sequence = s[i:i+10]
+    
+    if sequence in seen:
+        repeated.add(sequence)  # already seen → it’s a repeat
+    else:
+        seen.add(sequence)      # first time → add to seen
+
+Get the results
+print(list(repeated))
+
+Output:
+['AAAAACCCCC', 'CCCCCAAAAA']
+✅ These are exactly the 10-letter sequences that 
+appear more than once.
+
+
+
+How it works visually
+
+Imagine the sliding window moving across the string:
+
+String:  A A A A A C C C C C A A A A A C C C C C C A A A A A G G G T T T
+Index:   0 1 2 3 4 5 6 7 8 9 10 11 ...
+Window1: [0:10]  -> "AAAAACCCCC"  → add to seen
+Window2: [1:11]  -> "AAAACCCCCA"  → add to seen
+Window3: [2:12]  -> "AAACCCCCAA"  → add to seen
+...
+Window6: [5:15]  -> "CCCCCAAAAA"  → add to seen
+Window10:[10:20] -> "AAAAACCCCC"  → already in seen → add to repeated
+...
+
+
+Every time the window sees a sequence it has seen before, we know it’s repeated.
+
+Using sets ensures duplicates are not stored in repeated
+This is the core of the solution.
+
+
+Why len(s) - 9?
+
+We want 10-letter-long substrings.
+
+The slice s[i:i+10] takes 10 letters starting from index i.
+
+The last valid starting index for a 10-letter substring is:
+
+
+last_index=len(s)−10
+
+In Python, range(a, b) goes up to b-1, so we write:
+range(len(s) - 9)
+
+
+
+
+How the loop works
+for i in range(len(s) - 9):
+    substring = s[i:i+10]
+    print(substring)
+
+
+i = 0 → substring = s[0:10] → first 10 letters
+
+i = 1 → substring = s[1:11] → next 10 letters
+
+i = 2 → substring = s[2:12] → next 10 letters
+
+…
+
+Last i = len(s)-10 → substring = last 10 letters
+
+This is called a sliding window because the 10-letter 
+window "slides" one character at a time.
+
+
+s = "ABCDEFG"
+for i in range(len(s) - 2):  # we want substrings of length 3
+    print(s[i:i+3])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
