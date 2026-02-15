@@ -1,4 +1,4 @@
- def get_all_sequences(s, length=10):
+def get_all_sequences(s, length=10):
     """Return all possible substrings of given length."""
     sequences = []
     for i in range(len(s) - length + 1):
@@ -47,13 +47,13 @@ s2 = "AAAAAAAAAAAAA"
 print_dna_analysis(s2)
 
 
-# 🔹 visualize sliding window step-by-step
+# visualize sliding window step-by-step
 
-# 🔹 optimize with rolling hash (advanced)
+# optimize with rolling hash (advanced)
 
-# 🔹 convert this into a LeetCode-style solution
+# convert this into a LeetCode-style solution
 
-# 🔹 write unit tests
+# write unit tests
 
 
 

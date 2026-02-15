@@ -33,19 +33,54 @@
 
 # How many times a short DNA pattern appears inside a 
 # long DNA strand?
+
+# dna = "AGCTCGGTA"
+# pattern = "CG"
+# count = 0
+
+# for i in range(len(dna) - len(pattern) + 1):
+#     match = True
+
+#     for j in range(len(pattern)):
+#         if dna[i + j] != pattern[j]:
+#             match = False
+#             break
+
+#     if match:
+#         count += 1
+
+# print(f"Pattern '{pattern}' found {count} times")
+
+
+# Using sliding window approach:
+
 dna = "AGCTCGGTA"
 pattern = "CG"
 count = 0
 
-for i in range(len(dna) - len(pattern) + 1):
-    match = True
+window_size = len(pattern)
 
-    for j in range(len(pattern)):
-        if dna[i + j] != pattern[j]:
-            match = False
-            break
-
-    if match:
+for i in range(len(dna) - window_size + 1):
+    window = dna[i:i + window_size]   # sliding window
+    
+    if window == pattern:
         count += 1
 
 print(f"Pattern '{pattern}' found {count} times")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,246 @@
+Problem 1: Count Matches
+How many times does the pattern appear?
+
+Problem 2: Find Exact Match Positions
+Where exactly does the pattern appear?
+
+Problem 3: Allow One Mistake (≤ 1 Substitution)
+What if one letter is wrong? Can we still detect it?
+key = "atgc"
+We also accept:
+atga
+atcc
+ttgc
+Only ONE letter is different.
+Because DNA mutations happen in real life.
+So this problem helps detect possible mutations.
+
+
+Problem 4: Exactly One Substitution (No Exact Matches)
+Find matches that have exactly ONE mistake, but NOT 
+perfect matches.
+Perfect matches ❌ excluded
+Only mutated versions ✅ included
+This helps detect mutated genes specifically.
+
+
+Under the surface, this project is about:
+
+1️⃣ String Searching Algorithms
+
+How computers search inside text.
+
+2️⃣ Sliding Window Technique
+
+Move across text efficiently.
+
+3️⃣ Overlapping Matches
+
+Not all searches move in big steps.
+
+4️⃣ Mutation Detection Logic
+
+Compare two strings character by character.
+
+5️⃣ Algorithm Design Thinking
+
+Break big problems into smaller ones.
+
+
+🎯 Problem 1 — What Are We Solving?
+Count how many times a small string (key) appears 
+inside a bigger string (target)
+Including overlapping matches.
+
+
+target = "AAAA"
+key = "AA"
+
+AA
+ AA
+  AA
+
+def countSubStringMatch(target, key):
+    count = 0
+    window_size = len(key)
+
+    for start in range(len(target) - window_size + 1):
+        window = target[start:start + window_size]
+
+        if window == key:
+            count += 1
+
+    return count
+
+print(countSubStringMatch("AAAA", "AA"))
+
+Add Index Tracking (Sliding Window):
+def count_with_indexes(target, key):
+    window_size = len(key)
+    indexes = []
+
+    for start in range(len(target) - window_size + 1):
+        if target[start:start + window_size] == key:
+            indexes.append(start)
+
+    return len(indexes), indexes
+
+target = "AAAA"
+key = "AA"
+
+count, positions = count_with_indexes(target, key)
+
+print("Count:", count)
+print("Positions:", positions)
+
+
+Now let’s solve Problem 1 using recursion
+def count_recursive(target, key):
+    if len(target) < len(key):
+        return 0
+
+    if target[:len(key)] == key:
+        return 1 + count_recursive(target[1:], key)
+    else:
+        return count_recursive(target[1:], key)
+print(count_recursive("AAAA", "AA"))
+
+
+
+Problem 2 — Exact Match Positions
+def subStringMatchExact(target, key):
+    window_size = len(key)
+    result = ()
+
+    for start in range(len(target) - window_size + 1):
+        if target[start:start + window_size] == key:
+            result += (start,)
+
+    return result
+print(subStringMatchExact("AAAA", "AA"))
+
+
+
+
+🎯 Problem 3 — Allow One Substitution (≤ 1 Mistake)
+We want to find:
+
+All positions where the pattern matches the target
+BUT we allow one wrong character
+
+
+target = "atgacatgcacaagtatgcat"
+key = "atgc"
+
+Exact match: atgc
+Now we also accept:
+atga  (1 letter different)
+atcc
+ttgc
+...
+As long as:
+Only one letter is different
+Not more than one
+
+Step 1 — Think Simply
+Instead of breaking the key into parts (like the 
+assignment did),
+We will:
+Use sliding window
+Compare each character
+Count mismatches
+Accept if mismatches ≤ 1
+
+Step 2 — Build a Helper Function
+We need a function that checks:
+Does this window match with ≤ 1 mistake?
+✅ Helper Function
+
+def match_with_one_substitution(target, key, start):
+    mismatches = 0
+
+    for i in range(len(key)):
+        if target[start + i] != key[i]:
+            mismatches += 1
+            if mismatches > 1:
+                return False
+
+    return True
+
+Step 3 — Use Sliding Window
+Final Function (≤ 1 substitution)
+
+def subStringMatchOneSub(target, key):
+    window_size = len(key)
+    matches = []
+
+    for start in range(len(target) - window_size + 1):
+        if match_with_one_substitution(target, key, start):
+            matches.append(start)
+
+    return tuple(matches)
+target = "AAAA"
+key = "AA"
+print(subStringMatchOneSub(target, key))
+
+
+
+Problem 4 — Exactly 1 substitution
+🧠 What Are We Solving?
+We want positions where:
+Pattern matches the target
+Exactly 1 character is different
+Perfect matches are NOT allowed
+
+target = "AATA"
+key = "AA"
+AA → 0 mismatches ❌
+AT → 1 mismatch ✅
+TA → 1 mismatch ✅
+(1, 2)
+
+Step 1 — Modify Our Helper Function
+
+def match_exactly_one_sub(target, key, start):
+    mismatches = 0
+
+    for i in range(len(key)):
+        if target[start + i] != key[i]:
+            mismatches += 1
+            if mismatches > 1:
+                return False
+
+    return mismatches == 1
+
+def subStringMatchExactlyOneSub(target, key):
+    window_size = len(key)
+    matches = []
+
+    for start in range(len(target) - window_size + 1):
+        if match_exactly_one_sub(target, key, start):
+            matches.append(start)
+
+    return tuple(matches)
+
+
+print(subStringMatchExactlyOneSub("AATA", "AA"))
+(1, 2)
+
+
+
+Turn this into a small DNA mutation analyzer tool
+convert this into a mini DNA scanner tool
+
+
+
+
+
+
+
+
+
+
+
+
+
+
