@@ -1,4 +1,4 @@
-# ==========================================
+ # ==========================================
 # 🧬 Mini DNA Scanner Tool
 # ==========================================
 
@@ -8,7 +8,13 @@
 # ------------------------------------------------
 def is_valid_dna(sequence):
     allowed = {"A", "T", "G", "C"}
-    return all(char in allowed for char in sequence)
+    
+    for char in sequence:
+        if char not in allowed:
+            return False
+    
+    return True
+
 
 
 # ------------------------------------------------
@@ -52,7 +58,10 @@ def match_with_one_substitution(target, key, start):
                 return False
 
     return True
-
+# target = "AACCTGACATCTT"
+# key = "ACAT"
+# start = 6
+# print(match_with_one_substitution(target, key, start))
 
 def subStringMatchOneSub(target, key):
     window_size = len(key)
@@ -124,8 +133,6 @@ def dna_scanner():
         if choice == "1":
             count = countSubStringMatch(target, key)
             print(f"Exact matches found: {count}")
-            show_menu()
-            return
         elif choice == "2":
             matches = subStringMatchExact(target, key)
             print(f"Exact match positions: {matches}")
